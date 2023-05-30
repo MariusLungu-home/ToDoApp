@@ -9,6 +9,8 @@ builder.Services.AddAuthorization(_ =>
         .RequireAuthenticatedUser()
         .Build());
 
+builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("Default"));
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(_ =>
     {
@@ -40,4 +42,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHealthChecks("/health").AllowAnonymous();
 app.Run();
