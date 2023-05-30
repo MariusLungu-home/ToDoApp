@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using ToDoLibrary.DataAccess;
 using ToDoLibrary.Models;
 
 namespace TodoApi.Controllers;
@@ -7,25 +9,43 @@ namespace TodoApi.Controllers;
 [ApiController]
 public class ToDosController : ControllerBase
 {
+    private readonly IToDoData _data;
+
+    public ToDosController(IToDoData data)
+    {
+        _data = data;
+    }
+
+    private int GetUserId()
+    {
+        return int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value);
+    }
+
     // GET: api/Todos
     [HttpGet]
-    public ActionResult<IEnumerable<TodoModel>> Get()
+    public async Task<ActionResult<IEnumerable<TodoModel>>> Get()
     {
-        throw new NotImplementedException();
+        var result = await _data.GetAllAssigned(GetUserId());
+
+        return Ok(result);
     }
 
     // GET api/Todos/5
     [HttpGet("{id}")]
-    public ActionResult<TodoModel> Get(int id)
+    public async Task<ActionResult<TodoModel>> Get(int todoId)
     {
-        throw new NotImplementedException();
+        var result = await _data.GetOneAssigned(GetUserId(), todoId);
+
+        return Ok(result);
     }
 
     // POST api/Todos
     [HttpPost]
-    public IActionResult Post([FromBody] string value)
+    public async Task<ActionResult<TodoModel>> Post([FromBody] string taskValue)
     {
-        throw new NotImplementedException();
+        var result = _data.CreateTask(GetUserId(), taskValue);
+
+        return Ok(result);
     }
 
     // PUT api/Todos/5

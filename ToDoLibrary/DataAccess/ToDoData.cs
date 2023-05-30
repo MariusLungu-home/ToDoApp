@@ -14,7 +14,7 @@ namespace ToDoLibrary.DataAccess
         public Task<List<TodoModel>> GetAllAssigned(int assignedTo)
         {
             return _sql.LoadData<TodoModel, dynamic>(
-                "dbo.spToDo_GetAllAssigned",
+                "dbo.spTodos_GetAllAssigned",
                 new
                 {
                     AssignedTo = assignedTo
@@ -25,7 +25,7 @@ namespace ToDoLibrary.DataAccess
         public async Task<TodoModel?> GetOneAssigned(int assignedTo, int todoId)
         {
             var results = await _sql.LoadData<TodoModel, dynamic>(
-                            "dbo.spToDo_GetOneAssigned",
+                            "dbo.spTodos_GetOneAssigned",
                             new
                             {
                                 AssignedTo = assignedTo,
