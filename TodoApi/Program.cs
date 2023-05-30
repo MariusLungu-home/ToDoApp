@@ -8,6 +8,7 @@ builder.Services.AddAuthorization(_ =>
     _.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build());
+
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(_ =>
     {
@@ -36,6 +37,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
