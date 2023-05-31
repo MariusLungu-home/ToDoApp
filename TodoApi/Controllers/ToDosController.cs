@@ -31,7 +31,7 @@ public class ToDosController : ControllerBase
     }
 
     // GET api/Todos/5
-    [HttpGet("{id}")]
+    [HttpGet("{todoId}")]
     public async Task<ActionResult<TodoModel>> Get(int todoId)
     {
         var result = await _data.GetOneAssigned(GetUserId(), todoId);
@@ -40,32 +40,39 @@ public class ToDosController : ControllerBase
     }
 
     // POST api/Todos
-    [HttpPost]
+    [HttpPost()]
     public async Task<ActionResult<TodoModel>> Post([FromBody] string taskValue)
     {
-        var result = _data.CreateTask(GetUserId(), taskValue);
+        var result = await _data.CreateTask(GetUserId(), taskValue);
 
         return Ok(result);
     }
 
     // PUT api/Todos/5
-    [HttpPut("{id}")]
-    public IActionResult Put(int id, [FromBody] string value)
+    [HttpPut("{todoId}")]
+    public async Task<ActionResult> Put(int todoId, [FromBody] string value)
     {
-        throw new NotImplementedException();
+        await _data.UpdateTask(GetUserId(), value, todoId);
+
+        return Ok();
     }
 
-    [HttpPut("{id}/Complete")]
-    public IActionResult Complete(int id)
+    // PUT api/Todos/5/Complete
+    [HttpPut("{todoId}/Complete")]
+    public async Task<ActionResult> Complete(int todoId)
     {
-        throw new NotImplementedException();
+        await _data.CompleteTask(GetUserId(), todoId);
+
+        return Ok();
     }
 
     // DELETE api/Todos/5
-    [HttpDelete("{id}")]
-    public IActionResult Delete(int id)
+    [HttpDelete("{todoId}")]
+    public async Task<ActionResult> Delete(int todoId)
     {
-        throw new NotImplementedException();
+        await _data.DeleteTask(GetUserId(), todoId);
+
+        return Ok();
     }
     
 }

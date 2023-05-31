@@ -75,7 +75,7 @@ namespace ToDoLibrary.DataAccess
                 "Default");
         }
 
-        public Task DeleteTask(int assignedTo, string task, int todoId)
+        public Task DeleteTask(int assignedTo, int todoId)
         {
             return _sql.SaveData<dynamic>(
                 "dbo.spTodos_Delete",

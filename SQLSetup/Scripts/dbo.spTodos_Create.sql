@@ -1,7 +1,7 @@
 USE [TodoDb]
 GO
 
-/****** Object: SqlProcedure [dbo].[spTodos_Create] Script Date: 30-May-23 3:19:09 PM ******/
+/****** Object: SqlProcedure [dbo].[spTodos_Create] Script Date: 31-May-23 8:42:46 AM ******/
 SET ANSI_NULLS ON
 GO
 
@@ -15,8 +15,8 @@ CREATE PROCEDURE [dbo].[spTodos_Create]
 	@assignedTo int
 AS
 BEGIN
-	INSERT INTO dbo.ToDos (Task, AssignedTo)
-	VALUES (@task, @assignedTo)
+	INSERT INTO dbo.ToDos (Task, AssignedTo, IsComplete, IsArchived)
+	VALUES (@task, @assignedTo, 0, 0)
 
 	SELECT *
 	FROM ToDos
